@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 #include "header.h"
-
+/*
 JELOVNIK* zauzimanje(int n, JELOVNIK* x)
 {
 	x = (JELOVNIK*)calloc(n, sizeof(JELOVNIK));
@@ -12,7 +13,7 @@ JELOVNIK* zauzimanje(int n, JELOVNIK* x)
 		return 1;
 	}
 	return x;
-}
+}*/
 
 void menu()
 {
@@ -39,16 +40,18 @@ void opcije()
 	printf("5: Zatvori program\n");
 }
 
-int izbornik(const char* const tf, int x)
+int izbornik(const char* const tf, int n)
 {
 	int uvjet = 0;
 	int itemId;
 	int delivery;
 	int reservation;
 	int m, i;
-	int ordQu, delQu;
+	int qu;
 	menu();
 	opcije();
+	p[orderCount].kolicina = n;
+	p[orderCount].kolicina = 0;
 	printf("Order: Odaberite koliko stavki zelite naruciti:\n");
 	scanf("%d", &m);
 	getchar();
@@ -64,7 +67,10 @@ int izbornik(const char* const tf, int x)
 		{
 		case 1:
 		{
-
+			printf("Koliko stavki zelite naruciti?\n");
+			scanf("%d", &qu);
+			getchar();
+			p[orderCount].kolicina += qu;
 			break;
 		}
 		case 2:
