@@ -7,9 +7,19 @@
 int main(void)
 {
 	int i, n;
+	FILE* tf = NULL;
+	tf = fopen("obracun.txt", "w");
+	if (tf == NULL)
+	{
+		printf("Nah");
+		return -1;
+	}
+	printf("Unesite n:\n");
 	scanf("%d", &n);
-	JELOVNIK *x;
+	getchar();
+	JELOVNIK* x;
 	x = zauzimanje(n, &x);
+	izbornik(tf, x);
 
 	return 0;
 }
