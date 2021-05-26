@@ -4,7 +4,7 @@
 #include <string.h>
 #include "header.h"
 
-JELOVNIK* zauzimanje(int n, JELOVNIK *x)
+JELOVNIK* zauzimanje(int n, JELOVNIK* x)
 {
 	x = (JELOVNIK*)calloc(n, sizeof(JELOVNIK));
 	if (x == NULL)
@@ -14,7 +14,22 @@ JELOVNIK* zauzimanje(int n, JELOVNIK *x)
 	return x;
 }
 
-int izbornik(const char* const tf, int n)
+void menu()
+{
+	printf("______________________________MENU______________________________\n");
+	printf("Id:\t\tNaziv:\t\tCijena (kn)\n");
+	printf("[1]----------Juha od brokule----------12.99\n");
+	printf("[2]----------Juha od gljiva----------13.99\n");
+	printf("[3]----------Juha od brokule----------12.99\n");
+	printf("[4]----------Zagrebacki odrezak----------21.99\n");
+	printf("[5]----------Becki odrezak----------18.99\n");
+	printf("[6]----------Tjestenina bolognese----------15.99\n");
+	printf("[7]----------Punjeni pileci file----------14.99\n");
+	printf("[8]----------Kava s mlijekom----------6.99\n");
+	printf("[9]----------Kava sa slagom----------7.99\n");
+}
+
+void opcije()
 {
 	printf("Odaberite opciju:\n");
 	printf("1: Dodaj jelo na racun\n");
@@ -22,65 +37,58 @@ int izbornik(const char* const tf, int n)
 	printf("3: Dodaj rezervaciju\n");
 	printf("4: Ispisi racun\n");
 	printf("5: Zatvori program\n");
-	printf("______________________________\n");
+}
+
+int izbornik(const char* const tf, int x)
+{
 	int uvjet = 0;
 	int order = 0;
 	int delivery = 0;
 	int reservation = 0;
+	int m, i;
+	int orderCount = 0, deliveryCount = 0;
+	menu();
+	printf("Order: Odaberite koliko stavki dodati:\n");
+	scanf("%d", &m);
+	getchar();
+	while (m--)
+	{
+		printf("Unesite id stavke:\n");
+		scanf("%d", &order);
+		getchar();
+	}
+	/*
+	while
+	{
+		switch(uvjet/artikl)
+		{
+		dodaj + izracunaj
+		u datoteku ubaci rez
+		}
+	}
+
+	*/
+	opcije();
 	scanf("%d", &uvjet);
+	getchar();
 	switch (uvjet)
 	{
 	case 1:
 	{
-		scanf("%d", &order);
-		switch (order)
-		{
-		case 1:
-		{
-			for (int i = 0; i < n; i++)
-			{
-				printf("Odaberite sto dodati na racun:\n");
-				printf("1: Glavno jelo\n");
-				printf("2: Juha\n");
-				printf("3: Salata\n");
-				printf("4: Desert\n");
-				printf("5: Napitak\n");
-				printf("______________________________\n");
-				break;
-			}
-		}
-		default:
-		{
-			order = 0;
-			break;
-		}
-		}
+		
 		break;
 	}
 	case 2:
 	{
-		scanf("%d", &delivery);
-		switch (delivery)
+		printf("Delivery: Odaberite koliko stavki dodati:\n");
+		scanf("%d", &m);
+		getchar();
+		while (m--)
 		{
-		case 1:
-		{
-			/*
-			broj unosa
-			*/
-			printf("Odaberite sto dodati na narudzbu:\n");
-			printf("1: Glavno jelo\n");
-			printf("2: Juha\n");
-			printf("3: Salata\n");
-			printf("4: Desert\n");
-			printf("5: Napitak\n");
-			printf("______________________________\n");
-			break;
-		}
-		default:
-		{
-			delivery = 0;
-			break;
-		}
+			printf("Unesite id stavke:\n");
+			scanf("%d", &delivery);
+			getchar();
+
 		}
 		break;
 	}
@@ -88,7 +96,7 @@ int izbornik(const char* const tf, int n)
 	{
 		printf("Imate li rezervaciju?\n");
 		printf("Odaberite:\n");
-		printf("1: Zelim napraviti rezervaciju");
+		printf("1: Zelim napraviti rezervaciju.\n");
 		printf("2: Da\n");
 		printf("3: Ne\n");
 		scanf("%d", &reservation);
@@ -104,7 +112,7 @@ int izbornik(const char* const tf, int n)
 		}
 		case 2:
 		{
-			printf("Mozete li samo reci ime?\n");
+			printf("Ime rezervacije?\n");
 			/*
 			id/ime
 			*/
