@@ -4,38 +4,25 @@
 typedef struct jelovnik
 {
 	int id;
-	char naziv[50];
+	char naziv[100];
 	float cijena;
 	int kolicina;
 	int brRacuna;
 }JELOVNIK;
-
-typedef struct glavno
+/*
+typedef struct jelo
 {
-	JELOVNIK glavno;
-}GLAVNO;
+	JELOVNIK* glavno;
+	JELOVNIK* juha;
+	JELOVNIK* salata;
+	JELOVNIK* desert;
+	JELOVNIK* napitak;
+}JELO;
+*/
 
-typedef struct juha
-{
-	JELOVNIK juha;
-}JUHA;
-
-typedef struct salata
-{
-	JELOVNIK salata;
-}SALATA;
-
-typedef struct desert
-{
-	JELOVNIK desert;
-}DESERT;
-
-typedef struct napitak
-{
-	JELOVNIK napitak;
-}NAPITAK;
-
-JELOVNIK* zauzimanje(int , JELOVNIK *);
+JELOVNIK* zauzimanje(int, JELOVNIK*);
+void menu();
+void opcije();
 int izbornik(const char* const, int);
 
 #endif //HEADER_H
