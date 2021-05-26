@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 #include "header.h"
 
 int main(void)
@@ -17,9 +18,9 @@ int main(void)
 	printf("Unesite n:\n");
 	scanf("%d", &n);
 	getchar();
-	JELOVNIK* x;
-	x = zauzimanje(n, &x);
-	izbornik(tf, x);
+	/*JELOVNIK* x;
+	x = zauzimanje(n, &x);*/
+	izbornik(tf, n);
 
 	return 0;
 }
