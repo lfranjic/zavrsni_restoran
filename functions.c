@@ -31,7 +31,7 @@ void menu()
 
 void opcije()
 {
-	printf("Odaberite opciju:\n");
+	printf("Options:\n");
 	printf("1: Dodaj jelo na racun\n");
 	printf("2: Dodaj narudzbu\n");
 	printf("3: Dodaj rezervaciju\n");
@@ -42,20 +42,94 @@ void opcije()
 int izbornik(const char* const tf, int x)
 {
 	int uvjet = 0;
-	int order = 0;
-	int delivery = 0;
-	int reservation = 0;
+	int itemId;
+	int delivery;
+	int reservation;
 	int m, i;
-	int orderCount = 0, deliveryCount = 0;
+	int ordQu, delQu;
 	menu();
-	printf("Order: Odaberite koliko stavki dodati:\n");
+	opcije();
+	printf("Order: Odaberite koliko stavki zelite naruciti:\n");
 	scanf("%d", &m);
 	getchar();
 	while (m--)
 	{
-		printf("Unesite id stavke:\n");
-		scanf("%d", &order);
+		printf("Odaberite opciju:\n");
+		scanf("%d", &uvjet);
 		getchar();
+		printf("Unesite id stavke:\n");
+		scanf("%d", &itemId);
+		getchar();
+		switch (uvjet)
+		{
+		case 1:
+		{
+
+			break;
+		}
+		case 2:
+		{
+			printf("Delivery: Odaberite koliko stavki dodati:\n");
+			scanf("%d", &m);
+			getchar();
+			break;
+		}
+		case 3:
+		{
+			printf("Imate li rezervaciju?\n");
+			printf("Odaberite:\n");
+			printf("1: Zelim napraviti rezervaciju.\n");
+			printf("2: Da\n");
+			printf("3: Ne\n");
+			scanf("%d", &reservation);
+			switch (reservation)
+			{
+			case 1:
+			{
+				printf("Mozemo li dobiti podatke o rezervaciji?\n");
+				/*
+				id/ime, broj osoba, stol, kada
+				*/
+				break;
+			}
+			case 2:
+			{
+				printf("Ime rezervacije?\n");
+				/*
+				id/ime
+				*/
+				break;
+			}
+			case 3:
+			{
+				/*
+				razmisli
+				*/
+			}
+			default:
+			{
+				break;
+			}
+			}
+		}
+		case 4:
+		{
+			printf("Zelite li racun?\n");
+			/*
+			ispis racuna
+			*/
+		}
+		case 5:
+		{
+			/*
+			end
+			*/
+		}
+		default:
+		{
+			break;
+		}
+		}
 	}
 	/*
 	while
@@ -68,85 +142,5 @@ int izbornik(const char* const tf, int x)
 	}
 
 	*/
-	opcije();
-	scanf("%d", &uvjet);
-	getchar();
-	switch (uvjet)
-	{
-	case 1:
-	{
-		
-		break;
-	}
-	case 2:
-	{
-		printf("Delivery: Odaberite koliko stavki dodati:\n");
-		scanf("%d", &m);
-		getchar();
-		while (m--)
-		{
-			printf("Unesite id stavke:\n");
-			scanf("%d", &delivery);
-			getchar();
-
-		}
-		break;
-	}
-	case 3:
-	{
-		printf("Imate li rezervaciju?\n");
-		printf("Odaberite:\n");
-		printf("1: Zelim napraviti rezervaciju.\n");
-		printf("2: Da\n");
-		printf("3: Ne\n");
-		scanf("%d", &reservation);
-		switch (reservation)
-		{
-		case 1:
-		{
-			printf("Mozemo li dobiti podatke o rezervaciji?\n");
-			/*
-			id/ime, broj osoba, stol, kada
-			*/
-			break;
-		}
-		case 2:
-		{
-			printf("Ime rezervacije?\n");
-			/*
-			id/ime
-			*/
-			break;
-		}
-		case 3:
-		{
-			/*
-			razmisli
-			*/
-		}
-		default:
-		{
-			break;
-		}
-		}
-	}
-	case 4:
-	{
-		printf("Zelite li racun?\n");
-		/*
-		ispis racuna
-		*/
-	}
-	case 5:
-	{
-		/*
-		end
-		*/
-	}
-	default:
-	{
-		break;
-	}
-	}
 	return uvjet;
 }
