@@ -5,8 +5,9 @@
 #include <conio.h>
 #include "header.h"
 /*
-JELOVNIK* zauzimanje(int n, JELOVNIK* x)
+JELOVNIK* zauzimanje(int n)
 {
+	JELOVNIK* x;
 	x = (JELOVNIK*)calloc(n, sizeof(JELOVNIK));
 	if (x == NULL)
 	{
@@ -40,19 +41,32 @@ void opcije()
 	printf("5: Zatvori program\n");
 }
 
-int izbornik(const char* const tf, int n)
+int izbornik(FILE* tf, int n)
 {
 	int uvjet = 0;
-	int itemId;
-	int delivery;
-	int reservation;
-	int m, i;
-	int qu;
+	int itemId = 0;
+	int delivery = 0;
+	int reservation = 0;
+	int m = 0, i = 0;
+	int qu = 0;
+	int ordQu = 0, delQu = 0, rezBill = 0;
+	static JELOVNIK* orderFound = NULL;
+	JELOVNIK* orderArray = (JELOVNIK*)calloc(n, sizeof(JELOVNIK));
 	menu();
 	opcije();
+	
+	FILE* bill = fopen("order.bin", "wb");
+	if (bill == NULL)
+	{
+		perror("Nah v2");
+		exit(EXIT_FAILURE);
+	}
+	/*
 	p[orderCount].kolicina = n;
 	p[orderCount].kolicina = 0;
-	printf("Order: Odaberite koliko stavki zelite naruciti:\n");
+	*/
+	JELOVNIK tempOrder = { 0 };
+	printf("Odaberite koliko stavki zelite naruciti:\n");
 	scanf("%d", &m);
 	getchar();
 	while (m--)
@@ -63,14 +77,20 @@ int izbornik(const char* const tf, int n)
 		printf("Unesite id stavke:\n");
 		scanf("%d", &itemId);
 		getchar();
+		tempOrder.id = itemId;
 		switch (uvjet)
 		{
 		case 1:
 		{
-			printf("Koliko stavki zelite naruciti?\n");
+			printf("Order: Koliko stavki zelite naruciti?\n");
 			scanf("%d", &qu);
 			getchar();
-			p[orderCount].kolicina += qu;
+			/*
+			cijena preko id koji ide na varijablu iz datoteke
+			*/
+			tempOrder.cijena = 12;
+			ordQu = tempOrder.cijena * qu;
+			printf("Stavke order: %d\n", ordQu);
 			break;
 		}
 		case 2:
@@ -78,6 +98,12 @@ int izbornik(const char* const tf, int n)
 			printf("Delivery: Odaberite koliko stavki dodati:\n");
 			scanf("%d", &m);
 			getchar();
+			/*
+			cijena preko id koji ide na varijablu iz datoteke
+			*/
+			tempOrder.cijena = 12;
+			delQu = tempOrder.cijena * qu;
+			printf("Stavke delivery: %d\n", delQu);
 			break;
 		}
 		case 3:
@@ -120,10 +146,8 @@ int izbornik(const char* const tf, int n)
 		}
 		case 4:
 		{
-			printf("Zelite li racun?\n");
-			/*
-			ispis racuna
-			*/
+			rezBill = ordQu + delQu;
+			printf("%d\n", rezBill);
 		}
 		case 5:
 		{
@@ -137,16 +161,5 @@ int izbornik(const char* const tf, int n)
 		}
 		}
 	}
-	/*
-	while
-	{
-		switch(uvjet/artikl)
-		{
-		dodaj + izracunaj
-		u datoteku ubaci rez
-		}
-	}
-
-	*/
 	return uvjet;
 }
