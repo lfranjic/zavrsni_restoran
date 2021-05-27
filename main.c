@@ -7,7 +7,7 @@
 
 int main(void)
 {
-	int i, n;
+	int i = 0, n = 0;
 	FILE* tf = NULL;
 	tf = fopen("obracun.txt", "w");
 	if (tf == NULL)
@@ -18,9 +18,13 @@ int main(void)
 	printf("Unesite n:\n");
 	scanf("%d", &n);
 	getchar();
-	/*JELOVNIK* x;
-	x = zauzimanje(n, &x);*/
+	//zauzimanje(n);
+	JELOVNIK* fullOrder = { 0 };
 	izbornik(tf, n);
+	/*JELOVNIK x;
+	JELOVNIK* pokX = &x;
+	pokX = zauzimanje(n, &x);*/
+	//izbornik(tf);
 
 	return 0;
 }
