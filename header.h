@@ -1,15 +1,14 @@
 #ifndef HEADER_H
 #define HEADER_H	
 
-struct jelovnik
+typedef struct jelovnik
 {
 	int id;
 	char naziv[100];
 	int cijena;
 	int kolicina;
 	int orderNum;
-}p[10000];
-int orderCount = 0, foodNum = 0;
+}JELOVNIK;
 /*
 typedef struct jelo
 {
@@ -21,9 +20,9 @@ typedef struct jelo
 }JELO;
 */
 
-/*JELOVNIK* zauzimanje(int, JELOVNIK*);*/
+JELOVNIK* zauzimanje(int);
 void menu();
 void opcije();
-int izbornik(const char* const, int);
+int izbornik(FILE*, int n);
 
 #endif //HEADER_H
