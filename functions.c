@@ -55,7 +55,7 @@ int izbornik(FILE* tf, int n)
 	menu();
 	opcije();
 	
-	FILE* bill = fopen("order.bin", "wb");
+	FILE* bill = fopen("order.bin", "rb");
 	if (bill == NULL)
 	{
 		perror("Nah v2");
@@ -66,6 +66,7 @@ int izbornik(FILE* tf, int n)
 	p[orderCount].kolicina = 0;
 	*/
 	JELOVNIK tempOrder = { 0 };
+	JELOVNIK fullOrder = { 0 };
 	printf("Odaberite koliko stavki zelite naruciti:\n");
 	scanf("%d", &m);
 	getchar();
@@ -146,8 +147,8 @@ int izbornik(FILE* tf, int n)
 		}
 		case 4:
 		{
-			rezBill = ordQu + delQu;
-			printf("%d\n", rezBill);
+			fullOrder.cijena = ordQu + delQu;
+			printf("%d\n", fullOrder.cijena);
 		}
 		case 5:
 		{
