@@ -19,30 +19,30 @@ int izbornik()
 	printf("5: Izlaz iz programa.\n");
 	printf("____________________\n");
 	printf("____________________\n");
-	JELOVNIK* orderArray = NULL;
 	JELOVNIK* foundOrder = NULL;
+	JELOVNIK* orderArray = (JELOVNIK*)calloc(orderNum, sizeof(JELOVNIK));
+	if (orderArray == NULL)
+	{
+		perror("Zauzimanje memorije narudzbe");
+		return NULL;
+	}
 	int uvjet = 0;
 	do
 	{
 		scanf("%d", &uvjet);
 	}
-	while (uvjet < 1 || uvjet > 5);
+	while (uvjet < 0 || uvjet >= 6);
 
 	switch (uvjet)
 	{
 	case 1:
 	{
-		addOrder();
+		addOrder(orderArray);
 		break;
 	}
 	case 2:
 	{
-		if (orderArray != NULL)
-		{
-			free(orderArray);
-			orderArray = NULL;
-		}
-		orderArray = (JELOVNIK*)loadOrder();
+		orderArray = (JELOVNIK*)loadOrder(orderArray);
 		if (orderArray == NULL)
 		{
 			exit(EXIT_FAILURE);
@@ -88,7 +88,7 @@ void createFile()
 	}
 }
 
-void* loadOrder()
+void* loadOrder(JELOVNIK* const orderArray)
 {
 	FILE* bf = fopen("order.bin", "rb");
 	if (bf == NULL)
@@ -96,20 +96,13 @@ void* loadOrder()
 		perror("Ucitavanje narudzbe iz datoteke.");
 		return NULL;
 	}
-	fread(&orderNum, sizeof(int), 1, bf);
 	printf("Broj narudzbi: %d\n", orderNum);
-	JELOVNIK* orderArray = (JELOVNIK*)calloc(orderNum, sizeof(JELOVNIK));
-	if (orderArray == NULL)
-	{
-		perror("Zauzimanje memorije narudzbe");
-		return NULL;
-	}
 	fread(orderArray, sizeof(JELOVNIK), orderNum, bf);
 
 	return orderArray;
 }
 
-void addOrder()
+void addOrder(JELOVNIK* temp)
 {
 	FILE* bf = fopen("order.bin", "rb+");
 	if (bf == NULL)
@@ -117,30 +110,30 @@ void addOrder()
 		perror("Dodavanje narudzbe u datoteku");
 		exit(EXIT_FAILURE);
 	}
-
-	fread(&orderNum, sizeof(int), 1, bf);
 	printf("Broj narudzbi: %d\n", orderNum);
-	JELOVNIK temp = { 0 };
-	temp.id = orderNum;
-	getchar();
+	//JELOVNIK temp = { 0 };
+	temp->id = orderNum;
 	printf("Unesite id:\n");
-	scanf("%d[^\n]", &temp.id);
+	scanf("%d[^\n]", &temp->id);
 	printf("Unesite naziv:\n");
-	getchar();
-	scanf("%29s[^\n]", &temp.naziv);
+	scanf("%99s[^\n]", &temp->naziv);
 	getchar();
 	printf("Unesite cijenu:\n");
-	scanf("%9s[^\n]", &temp.cijena);
-	getchar();
+	scanf("%d[^\n]", &temp->cijena);
 	fseek(bf, sizeof(JELOVNIK) * orderNum, SEEK_CUR);
 	fwrite(&temp, sizeof(JELOVNIK), 1, bf);
 	rewind(bf);
+	int helpCijena = 0;
+	temp->cijena = helpCijena;
+	int sumCijena = 0;
+	sumCijena += temp->cijena;
+	fprintf(bf, "%d", sumCijena);
 	orderNum++;
 	fwrite(&orderNum, sizeof(int), 1, bf);
 	fclose(bf);
 }
 
-void writeOrder(const JELOVNIK* const orderArray)
+void writeOrder(JELOVNIK* const orderArray)
 {
 	if (orderArray == NULL)
 	{
@@ -150,7 +143,7 @@ void writeOrder(const JELOVNIK* const orderArray)
 	int i;
 	for (i = 0; i < orderNum; i++)
 	{
-		printf("Narudzba broj %d\tID:\tnaziv: %29s\tcijena: %9s\n",
+		printf("Narudzba broj %d\nID: %d\nnaziv: %99s\ncijena: %d\n",
 			i + 1, (orderArray + i)->id, (orderArray + i)->naziv, (orderArray + i)->cijena);
 	}
 }
@@ -164,7 +157,7 @@ void* searchOrder(JELOVNIK* const orderArray)
 	}
 	int i;
 	//id ili naziv, pokusat oboje
-	char trazenId[30] = { '\0' };
+	char trazenId[100] = { '\0' };
 	printf("Unesite kriterij za pronalazak narudzbe.\n");
 	getchar();
 	scanf("%d", &trazenId);

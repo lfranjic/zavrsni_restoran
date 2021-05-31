@@ -5,9 +5,9 @@
 
 int izbornik();
 void createFile();
-void addOrder();
-void* loadOrder();
-void writeOrder();
+void addOrder(JELOVNIK*);
+void* loadOrder(JELOVNIK* const);
+void writeOrder(JELOVNIK* const);
 void* searchOrder(JELOVNIK* const);
 int exitProgram(JELOVNIK*);
 

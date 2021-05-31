@@ -4,9 +4,9 @@
 typedef struct jelovnik
 {
 	int id;
-	char naziv[30];
+	char naziv[100];
 	int kolicina;
-	char cijena[10];
+	int cijena;
 }
 JELOVNIK;
 
