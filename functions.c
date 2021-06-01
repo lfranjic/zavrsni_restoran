@@ -126,7 +126,8 @@ void addOrder(JELOVNIK* temp)
 	int helpCijena = 0;
 	temp->cijena = helpCijena;
 	int sumCijena = 0;
-	sumCijena += temp->cijena;
+	sumCijena += temp->cijena * temp->kolicina;
+	printf("Cijena racuna: %d kn\n", sumCijena);
 	fprintf(bf, "%d", sumCijena);
 	orderNum++;
 	fwrite(&orderNum, sizeof(int), 1, bf);
