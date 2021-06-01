@@ -30,8 +30,7 @@ int izbornik()
 	do
 	{
 		scanf("%d", &uvjet);
-	}
-	while (uvjet < 0 || uvjet >= 6);
+	} while (uvjet < 0 || uvjet >= 6);
 
 	switch (uvjet)
 	{
@@ -75,10 +74,10 @@ int izbornik()
 
 void createFile()
 {
-	FILE* bf = fopen("order.bin", "wb");
+	FILE* bf = fopen("order.txt", "w");
 	if (bf == NULL)
 	{
-		perror("Kreiranje narudzba.bin");
+		perror("Kreiranje narudzba.txt");
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -90,7 +89,7 @@ void createFile()
 
 void* loadOrder(JELOVNIK* const orderArray)
 {
-	FILE* bf = fopen("order.bin", "rb");
+	FILE* bf = fopen("order.txt", "r");
 	if (bf == NULL)
 	{
 		perror("Ucitavanje narudzbe iz datoteke.");
@@ -104,14 +103,13 @@ void* loadOrder(JELOVNIK* const orderArray)
 
 void addOrder(JELOVNIK* temp)
 {
-	FILE* bf = fopen("order.bin", "rb+");
+	FILE* bf = fopen("order.txt", "r+");
 	if (bf == NULL)
 	{
 		perror("Dodavanje narudzbe u datoteku");
 		exit(EXIT_FAILURE);
 	}
 	printf("Broj narudzbi: %d\n", orderNum);
-	//JELOVNIK temp = { 0 };
 	temp->id = orderNum;
 	printf("Unesite id:\n");
 	scanf("%d[^\n]", &temp->id);
@@ -120,11 +118,11 @@ void addOrder(JELOVNIK* temp)
 	getchar();
 	printf("Unesite cijenu:\n");
 	scanf("%d[^\n]", &temp->cijena);
+	printf("Unesite koliko stavki zelite naruciti:\n");
+	scanf("%d[^\n]", &temp->kolicina);
 	fseek(bf, sizeof(JELOVNIK) * orderNum, SEEK_CUR);
 	fwrite(&temp, sizeof(JELOVNIK), 1, bf);
 	rewind(bf);
-	int helpCijena = 0;
-	temp->cijena = helpCijena;
 	int sumCijena = 0;
 	sumCijena += temp->cijena * temp->kolicina;
 	printf("Cijena racuna: %d kn\n", sumCijena);
@@ -139,7 +137,7 @@ void writeOrder(JELOVNIK* const orderArray)
 	if (orderArray == NULL)
 	{
 		printf("Polje je prazno.\n");
-		return -1;
+		return NULL;
 	}
 	int i;
 	for (i = 0; i < orderNum; i++)
@@ -158,13 +156,12 @@ void* searchOrder(JELOVNIK* const orderArray)
 	}
 	int i;
 	//id ili naziv, pokusat oboje
-	char trazenId[100] = { '\0' };
+	int trazenId[100];
 	printf("Unesite kriterij za pronalazak narudzbe.\n");
-	getchar();
 	scanf("%d", &trazenId);
 	for (i = 0; i < orderNum; i++)
 	{
-		if (!strcmp(trazenId, (orderArray + i)->id))
+		if (trazenId == (orderArray + i)->id)
 		{
 			printf("Narudzba je pronadena.\n");
 			return (orderArray + i);
