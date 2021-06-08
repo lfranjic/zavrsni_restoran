@@ -3,12 +3,15 @@
 
 #include "header.h"
 
+void memory();
 int izbornik();
-void createFile();
-void addOrder(JELOVNIK*);
-void* loadOrder(JELOVNIK* const);
-void writeOrder(JELOVNIK* const);
-void* searchOrder(JELOVNIK* const);
-int exitProgram(JELOVNIK*);
+FILE* openFile();
+int addOrder(int);
+void* loadOrder();
+void writeOrder(int);
+void* searchOrder(int);
+void swap(int*, int*);
+void bubbleSort(JELOVNIK*, int);
+void printArray(JELOVNIK*, int);
 
 #endif //FUNCTIONS_H

@@ -6,9 +6,31 @@
 #include "header.h"
 
 static int orderNum = 0;
+static int sumCijena = 0;
+
+FILE* openFile()
+{
+	FILE* bf = NULL;
+	bf = fopen("order.txt", "w+");
+	if (bf == NULL)
+	{
+		printf("Datoteka se ne moze otvoriti.");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		return bf;
+	}
+}
+
+void memory()
+{
+	JELOVNIK* jeloArray = (JELOVNIK*)calloc(orderNum, sizeof(JELOVNIK));
+}
 
 int izbornik()
 {
+	memory();
 	printf("____________________\n");
 	printf("Odaberite opciju:\n");
 	printf("____________________\n");
@@ -16,12 +38,12 @@ int izbornik()
 	printf("2: Ucitavanje narudzbe.\n");
 	printf("3: Ispis narudzbe.\n");
 	printf("4: Pretraga narudzbe.\n");
-	printf("5: Izlaz iz programa.\n");
+	printf("5: Sortiraj narudzbe po id-u.\n");
+	printf("6: Izlaz iz programa.\n");
 	printf("____________________\n");
 	printf("____________________\n");
-	JELOVNIK* foundOrder = NULL;
-	JELOVNIK* orderArray = (JELOVNIK*)calloc(orderNum, sizeof(JELOVNIK));
-	if (orderArray == NULL)
+	int m = 0;
+	if (jeloArray == NULL)
 	{
 		perror("Zauzimanje memorije narudzbe");
 		return NULL;
@@ -30,19 +52,22 @@ int izbornik()
 	do
 	{
 		scanf("%d", &uvjet);
-	} while (uvjet < 0 || uvjet >= 6);
+	}
+	while (uvjet < 0 || uvjet >= 7);
 
 	switch (uvjet)
 	{
 	case 1:
 	{
-		addOrder(orderArray);
+		printf("Unesite broj narudzbi:\n");
+		scanf("%d", &m);
+		addOrder(m);
 		break;
 	}
 	case 2:
 	{
-		orderArray = (JELOVNIK*)loadOrder(orderArray);
-		if (orderArray == NULL)
+		loadOrder();
+		if (jeloArray == NULL)
 		{
 			exit(EXIT_FAILURE);
 		}
@@ -50,17 +75,22 @@ int izbornik()
 	}
 	case 3:
 	{
-		writeOrder(orderArray);
+		writeOrder(orderNum);
 		break;
 	}
 	case 4:
 	{
-		foundOrder = (JELOVNIK*)searchOrder(orderArray);
+		searchOrder(orderNum);
 		break;
 	}
 	case 5:
 	{
-		uvjet = exitProgram(orderArray);
+		printArray(jeloArray, orderNum);
+		break;
+	}
+	case 6:
+	{
+		uvjet = 0;
 		break;
 	}
 	default:
@@ -72,108 +102,104 @@ int izbornik()
 	return uvjet;
 }
 
-void createFile()
+int addOrder(int m)
 {
-	FILE* bf = fopen("order.txt", "w");
-	if (bf == NULL)
+	FILE* bf = openFile();
+	for (int i = 0; i < m; i++)
 	{
-		perror("Kreiranje narudzba.txt");
-		exit(EXIT_FAILURE);
+		printf("Unesite id:\n");
+		scanf("%d", &(jeloArray + i)->id);
+		printf("Unesite naziv:\n");
+		scanf("%s", &(jeloArray + i)->naziv);
+		getchar();
+		printf("Unesite cijenu:\n");
+		scanf("%d", &(jeloArray + i)->cijena);
+		sumCijena += (jeloArray + i)->cijena;
+		fprintf(bf, "%d %s %d\n", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
+		fprintf(bf, "%d", sumCijena);
+		orderNum++;
 	}
-	else
-	{
-		fwrite(&orderNum, sizeof(int), 1, bf);
-		fclose(bf);
-	}
+	return orderNum;
 }
 
-void* loadOrder(JELOVNIK* const orderArray)
+void* loadOrder()
 {
-	FILE* bf = fopen("order.txt", "r");
-	if (bf == NULL)
-	{
-		perror("Ucitavanje narudzbe iz datoteke.");
-		return NULL;
-	}
+	FILE* bf = openFile();
 	printf("Broj narudzbi: %d\n", orderNum);
-	fread(orderArray, sizeof(JELOVNIK), orderNum, bf);
+	fread(jeloArray, sizeof(JELOVNIK), orderNum, bf);
 
-	return orderArray;
+	return jeloArray;
 }
 
-void addOrder(JELOVNIK* temp)
+void writeOrder(int n)
 {
-	FILE* bf = fopen("order.txt", "r+");
-	if (bf == NULL)
-	{
-		perror("Dodavanje narudzbe u datoteku");
-		exit(EXIT_FAILURE);
-	}
-	printf("Broj narudzbi: %d\n", orderNum);
-	temp->id = orderNum;
-	printf("Unesite id:\n");
-	scanf("%d[^\n]", &temp->id);
-	printf("Unesite naziv:\n");
-	scanf("%99s[^\n]", &temp->naziv);
-	getchar();
-	printf("Unesite cijenu:\n");
-	scanf("%d[^\n]", &temp->cijena);
-	printf("Unesite koliko stavki zelite naruciti:\n");
-	scanf("%d[^\n]", &temp->kolicina);
-	fseek(bf, sizeof(JELOVNIK) * orderNum, SEEK_CUR);
-	fwrite(&temp, sizeof(JELOVNIK), 1, bf);
-	rewind(bf);
-	int sumCijena = 0;
-	sumCijena += temp->cijena * temp->kolicina;
-	printf("Cijena racuna: %d kn\n", sumCijena);
-	fprintf(bf, "%d", sumCijena);
-	orderNum++;
-	fwrite(&orderNum, sizeof(int), 1, bf);
-	fclose(bf);
-}
-
-void writeOrder(JELOVNIK* const orderArray)
-{
-	if (orderArray == NULL)
+	FILE* bf = openFile();
+	if (jeloArray == NULL)
 	{
 		printf("Polje je prazno.\n");
-		return NULL;
+		return -1;
 	}
 	int i;
-	for (i = 0; i < orderNum; i++)
+	for (i = 0; i < n; i++)
 	{
-		printf("Narudzba broj %d\nID: %d\nnaziv: %99s\ncijena: %d\n",
-			i + 1, (orderArray + i)->id, (orderArray + i)->naziv, (orderArray + i)->cijena);
+		fscanf(bf, "%d %s %d", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
+		printf("Narudzba broj %d\nID: %d\nnaziv: %s\ncijena: %d\n",
+			i + 1, (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
 	}
 }
 
-void* searchOrder(JELOVNIK* const orderArray)
+void* searchOrder(int n)
 {
-	if (orderArray == NULL)
+	if (jeloArray == NULL)
 	{
 		printf("Polje je prazno 2.\n");
 		return NULL;
 	}
 	int i;
-	//id ili naziv, pokusat oboje
-	int trazenId[100];
-	printf("Unesite kriterij za pronalazak narudzbe.\n");
+	int trazenId = 0;
+	printf("Unesite kriterij (ID) za pronalazak narudzbe.\n");
 	scanf("%d", &trazenId);
-	for (i = 0; i < orderNum; i++)
+	for (i = 0; i < n; i++)
 	{
-		if (trazenId == (orderArray + i)->id)
+		if (trazenId == (jeloArray + i)->id)
 		{
 			printf("Narudzba je pronadena.\n");
-			return (orderArray + i);
+			printf("ID: %d\nNaziv: %s\nCijena: %d\n", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
 		}
 	}
 
 	return NULL;
 }
 
-int exitProgram(JELOVNIK* orderArray)
+void swap(int* xp, int* yp)
 {
-	free(orderArray);
+	int temp = *xp;
+	*xp = *yp;
+	*yp = temp;
+}
 
-	return 0;
+void bubbleSort(JELOVNIK* jeloArray, int n)
+{
+	int i, j;
+	for (i = 0; i < n - 1; i++)
+	{
+		for (j = 0; j < n - i - 1; j++)
+		{
+			if ((jeloArray + j)->id > (jeloArray + j + 1)->id)
+			{
+				swap(&(jeloArray + j)->id, &(jeloArray + j + 1)->id);
+			}
+		}
+	}
+}
+
+void printArray(JELOVNIK* jeloArray, int m)
+{
+	int i;
+	bubbleSort(jeloArray, m);
+	for (i = 0; i < m; i++)
+	{
+		printf("Narudzba broj %d\nID: %d\nnaziv: %s\ncijena: %d\n",
+			i + 1, (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
+	}
 }

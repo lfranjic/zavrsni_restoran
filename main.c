@@ -6,7 +6,7 @@
 int main(void)
 {
 	int uvjet = 1;
-	createFile();
+	openFile();
 	while (uvjet)
 	{
 		uvjet = izbornik();
