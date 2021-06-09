@@ -13,5 +13,6 @@ void* searchOrder(int);
 void swap(int*, int*);
 void bubbleSort(JELOVNIK*, int);
 void printArray(JELOVNIK*, int);
+void ispisRacuna(int);
 
 #endif //FUNCTIONS_H

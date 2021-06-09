@@ -39,7 +39,8 @@ int izbornik()
 	printf("3: Ispis narudzbe.\n");
 	printf("4: Pretraga narudzbe.\n");
 	printf("5: Sortiraj narudzbe po id-u.\n");
-	printf("6: Izlaz iz programa.\n");
+	printf("6: Ispis racuna.\n");
+	printf("7: Izlaz iz programa.\n");
 	printf("____________________\n");
 	printf("____________________\n");
 	int m = 0;
@@ -53,7 +54,7 @@ int izbornik()
 	{
 		scanf("%d", &uvjet);
 	}
-	while (uvjet < 0 || uvjet >= 7);
+	while (uvjet < 0 || uvjet >= 8);
 
 	switch (uvjet)
 	{
@@ -90,6 +91,11 @@ int izbornik()
 	}
 	case 6:
 	{
+		ispisRacuna(sumCijena);
+		break;
+	}
+	case 7:
+	{
 		uvjet = 0;
 		break;
 	}
@@ -116,7 +122,7 @@ int addOrder(int m)
 		scanf("%d", &(jeloArray + i)->cijena);
 		sumCijena += (jeloArray + i)->cijena;
 		fprintf(bf, "%d %s %d\n", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
-		fprintf(bf, "%d", sumCijena);
+		//fprintf(bf, "%d", sumCijena);
 		orderNum++;
 	}
 	return orderNum;
@@ -144,7 +150,10 @@ void writeOrder(int n)
 	{
 		fscanf(bf, "%d %s %d", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
 		printf("Narudzba broj %d\nID: %d\nnaziv: %s\ncijena: %d\n",
-			i + 1, (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
+			i + 1,
+			(jeloArray + i)->id,
+			(jeloArray + i)->naziv,
+			(jeloArray + i)->cijena);
 	}
 }
 
@@ -164,7 +173,10 @@ void* searchOrder(int n)
 		if (trazenId == (jeloArray + i)->id)
 		{
 			printf("Narudzba je pronadena.\n");
-			printf("ID: %d\nNaziv: %s\nCijena: %d\n", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
+			printf("ID: %d\nNaziv: %s\nCijena: %d\n",
+				(jeloArray + i)->id,
+				(jeloArray + i)->naziv,
+				(jeloArray + i)->cijena);
 		}
 	}
 
@@ -188,6 +200,8 @@ void bubbleSort(JELOVNIK* jeloArray, int n)
 			if ((jeloArray + j)->id > (jeloArray + j + 1)->id)
 			{
 				swap(&(jeloArray + j)->id, &(jeloArray + j + 1)->id);
+				swap(&(jeloArray + j)->naziv, &(jeloArray + j + 1)->naziv);
+				swap(&(jeloArray + j)->cijena, &(jeloArray + j + 1)->cijena);
 			}
 		}
 	}
@@ -202,4 +216,9 @@ void printArray(JELOVNIK* jeloArray, int m)
 		printf("Narudzba broj %d\nID: %d\nnaziv: %s\ncijena: %d\n",
 			i + 1, (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
 	}
+}
+
+void ispisRacuna(int obracun)
+{
+	printf("Cijena racuna je: %d kn\n", obracun);
 }
