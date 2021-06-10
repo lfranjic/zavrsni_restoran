@@ -124,6 +124,7 @@ int addOrder(int m)
 		fprintf(bf, "%d %s %d\n", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
 		orderNum++;
 	}
+	fclose(bf);
 	return orderNum;
 }
 
@@ -132,7 +133,7 @@ void* loadOrder()
 	FILE* bf = openFile();
 	printf("Broj narudzbi: %d\n", orderNum);
 	fread(jeloArray, sizeof(JELOVNIK), orderNum, bf);
-
+	fclose(bf);
 	return jeloArray;
 }
 
@@ -154,6 +155,7 @@ void writeOrder(int n)
 			(jeloArray + i)->naziv,
 			(jeloArray + i)->cijena);
 	}
+	fclose(bf);
 }
 
 void* searchOrder(int n)
