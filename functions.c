@@ -4,7 +4,7 @@
 #include <string.h>
 #include "functions.h"
 #include "header.h"
-
+#define MAX 100
 static int orderNum = 0;
 static int sumCijena = 0;
 char clean[100];
@@ -172,7 +172,7 @@ void* searchOrder(int n)
 		if (trazenId == (jeloArray + i)->id)
 		{
 			printf("Narudzba je pronadena.\n");
-			printf("ID: %d\nNaziv: %Cijena: %d kn\n",
+			printf("ID: %d\nNaziv: %sCijena: %d kn\n",
 				(jeloArray + i)->id,
 				(jeloArray + i)->naziv,
 				(jeloArray + i)->cijena);
