@@ -3,7 +3,6 @@
 
 #include "header.h"
 
-//void memory();
 int izbornik();
 FILE* openFile();
 int addOrder(int);
