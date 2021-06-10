@@ -4,10 +4,9 @@
 #include <string.h>
 #include "functions.h"
 #include "header.h"
-#define MAX 100
+
 static int orderNum = 0;
 static int sumCijena = 0;
-char clean[100];
 
 FILE* openFile()
 {
@@ -24,14 +23,8 @@ FILE* openFile()
 	}
 }
 
-void memory()
-{
-	JELOVNIK* jeloArray = (JELOVNIK*)calloc(orderNum, sizeof(JELOVNIK));
-}
-
 int izbornik()
 {
-	memory();
 	printf("____________________\n");
 	printf("Odaberite opciju:\n");
 	printf("____________________\n");
@@ -62,6 +55,7 @@ int izbornik()
 	{
 		printf("Unesite broj narudzbi:\n");
 		scanf("%d", &m);
+		JELOVNIK* jeloArray = (JELOVNIK*)calloc(m, sizeof(JELOVNIK));
 		addOrder(m);
 		break;
 	}
