@@ -116,8 +116,8 @@ int addOrder(int m)
 		printf("Unesite id:\n");
 		scanf("%d", &(jeloArray + i)->id);
 		printf("Unesite naziv:\n");
-		scanf("%s", &(jeloArray + i)->naziv);
-		fgets(clean, 100, stdin);
+		getchar();
+		fgets((jeloArray + i)->naziv, 100, stdin);
 		printf("Unesite cijenu:\n");
 		scanf("%d", &(jeloArray + i)->cijena);
 		sumCijena += (jeloArray + i)->cijena;
