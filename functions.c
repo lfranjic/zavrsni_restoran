@@ -7,6 +7,7 @@
 
 static int orderNum = 0;
 static int sumCijena = 0;
+char clean[100];
 
 FILE* openFile()
 {
@@ -53,8 +54,7 @@ int izbornik()
 	do
 	{
 		scanf("%d", &uvjet);
-	}
-	while (uvjet < 0 || uvjet >= 8);
+	} while (uvjet < 0 || uvjet >= 8);
 
 	switch (uvjet)
 	{
@@ -117,12 +117,11 @@ int addOrder(int m)
 		scanf("%d", &(jeloArray + i)->id);
 		printf("Unesite naziv:\n");
 		scanf("%s", &(jeloArray + i)->naziv);
-		getchar();
+		fgets(clean, 100, stdin);
 		printf("Unesite cijenu:\n");
 		scanf("%d", &(jeloArray + i)->cijena);
 		sumCijena += (jeloArray + i)->cijena;
 		fprintf(bf, "%d %s %d\n", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
-		//fprintf(bf, "%d", sumCijena);
 		orderNum++;
 	}
 	return orderNum;
@@ -149,7 +148,7 @@ void writeOrder(int n)
 	for (i = 0; i < n; i++)
 	{
 		fscanf(bf, "%d %s %d", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
-		printf("Narudzba broj %d\nID: %d\nnaziv: %s\ncijena: %d\n",
+		printf("Narudzba broj %d\nID: %d\nNaziv: %s\nCijena: %d kn\n",
 			i + 1,
 			(jeloArray + i)->id,
 			(jeloArray + i)->naziv,
@@ -166,14 +165,14 @@ void* searchOrder(int n)
 	}
 	int i;
 	int trazenId = 0;
-	printf("Unesite kriterij (ID) za pronalazak narudzbe.\n");
+	printf("Unesite ID za pronalazak narudzbe.\n");
 	scanf("%d", &trazenId);
 	for (i = 0; i < n; i++)
 	{
 		if (trazenId == (jeloArray + i)->id)
 		{
 			printf("Narudzba je pronadena.\n");
-			printf("ID: %d\nNaziv: %s\nCijena: %d\n",
+			printf("ID: %d\nNaziv: %s\nCijena: %d kn\n",
 				(jeloArray + i)->id,
 				(jeloArray + i)->naziv,
 				(jeloArray + i)->cijena);
@@ -213,7 +212,7 @@ void printArray(JELOVNIK* jeloArray, int m)
 	bubbleSort(jeloArray, m);
 	for (i = 0; i < m; i++)
 	{
-		printf("Narudzba broj %d\nID: %d\nnaziv: %s\ncijena: %d\n",
+		printf("Narudzba broj %d\nID: %d\nNaziv: %s\nCijena: %d kn\n",
 			i + 1, (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
 	}
 }

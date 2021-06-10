@@ -12,6 +12,5 @@ int main(void)
 		uvjet = izbornik();
 	}
 	printf("Kraj programa.\n");
-
 	return 0;
 }
