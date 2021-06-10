@@ -148,7 +148,7 @@ void writeOrder(int n)
 	for (i = 0; i < n; i++)
 	{
 		fscanf(bf, "%d %s %d", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
-		printf("Narudzba broj %d\nID: %d\nNaziv: %s\nCijena: %d kn\n",
+		printf("Narudzba broj %d\nID: %d\nNaziv: %sCijena: %d kn\n",
 			i + 1,
 			(jeloArray + i)->id,
 			(jeloArray + i)->naziv,
@@ -172,7 +172,7 @@ void* searchOrder(int n)
 		if (trazenId == (jeloArray + i)->id)
 		{
 			printf("Narudzba je pronadena.\n");
-			printf("ID: %d\nNaziv: %s\nCijena: %d kn\n",
+			printf("ID: %d\nNaziv: %Cijena: %d kn\n",
 				(jeloArray + i)->id,
 				(jeloArray + i)->naziv,
 				(jeloArray + i)->cijena);
@@ -212,7 +212,7 @@ void printArray(JELOVNIK* jeloArray, int m)
 	bubbleSort(jeloArray, m);
 	for (i = 0; i < m; i++)
 	{
-		printf("Narudzba broj %d\nID: %d\nNaziv: %s\nCijena: %d kn\n",
+		printf("Narudzba broj %d\nID: %d\nNaziv: %sCijena: %d kn\n",
 			i + 1, (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
 	}
 }
