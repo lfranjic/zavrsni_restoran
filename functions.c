@@ -23,8 +23,14 @@ FILE* openFile()
 	}
 }
 
+void memory()
+{
+	JELOVNIK* jeloArray = (JELOVNIK*)calloc(orderNum, sizeof(JELOVNIK));
+}
+
 int izbornik()
 {
+	memory();
 	printf("____________________\n");
 	printf("Odaberite opciju:\n");
 	printf("____________________\n");
@@ -47,7 +53,8 @@ int izbornik()
 	do
 	{
 		scanf("%d", &uvjet);
-	} while (uvjet < 0 || uvjet >= 8);
+	}
+	while (uvjet < 0 || uvjet >= 8);
 
 	switch (uvjet)
 	{
@@ -55,7 +62,6 @@ int izbornik()
 	{
 		printf("Unesite broj narudzbi:\n");
 		scanf("%d", &m);
-		JELOVNIK* jeloArray = (JELOVNIK*)calloc(m, sizeof(JELOVNIK));
 		addOrder(m);
 		break;
 	}
@@ -110,15 +116,15 @@ int addOrder(int m)
 		printf("Unesite id:\n");
 		scanf("%d", &(jeloArray + i)->id);
 		printf("Unesite naziv:\n");
+		scanf("%s", &(jeloArray + i)->naziv);
 		getchar();
-		fgets((jeloArray + i)->naziv, 100, stdin);
 		printf("Unesite cijenu:\n");
 		scanf("%d", &(jeloArray + i)->cijena);
 		sumCijena += (jeloArray + i)->cijena;
 		fprintf(bf, "%d %s %d\n", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
+		//fprintf(bf, "%d", sumCijena);
 		orderNum++;
 	}
-	fclose(bf);
 	return orderNum;
 }
 
@@ -127,7 +133,7 @@ void* loadOrder()
 	FILE* bf = openFile();
 	printf("Broj narudzbi: %d\n", orderNum);
 	fread(jeloArray, sizeof(JELOVNIK), orderNum, bf);
-	fclose(bf);
+
 	return jeloArray;
 }
 
@@ -143,13 +149,12 @@ void writeOrder(int n)
 	for (i = 0; i < n; i++)
 	{
 		fscanf(bf, "%d %s %d", (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
-		printf("Narudzba broj %d\nID: %d\nNaziv: %sCijena: %d kn\n",
+		printf("Narudzba broj %d\nID: %d\nnaziv: %s\ncijena: %d\n",
 			i + 1,
 			(jeloArray + i)->id,
 			(jeloArray + i)->naziv,
 			(jeloArray + i)->cijena);
 	}
-	fclose(bf);
 }
 
 void* searchOrder(int n)
@@ -161,14 +166,14 @@ void* searchOrder(int n)
 	}
 	int i;
 	int trazenId = 0;
-	printf("Unesite ID za pronalazak narudzbe.\n");
+	printf("Unesite kriterij (ID) za pronalazak narudzbe.\n");
 	scanf("%d", &trazenId);
 	for (i = 0; i < n; i++)
 	{
 		if (trazenId == (jeloArray + i)->id)
 		{
 			printf("Narudzba je pronadena.\n");
-			printf("ID: %d\nNaziv: %sCijena: %d kn\n",
+			printf("ID: %d\nNaziv: %s\nCijena: %d\n",
 				(jeloArray + i)->id,
 				(jeloArray + i)->naziv,
 				(jeloArray + i)->cijena);
@@ -201,6 +206,29 @@ void bubbleSort(JELOVNIK* jeloArray, int n)
 		}
 	}
 }
+/*
+void bubbleSort2(JELOVNIK* jeloArray, int n)
+{
+	int c, d;
+	int changeID;
+	int changePrice;
+	for (c = 0; c < n - 1; c++)
+	{
+		for (d = 0; d < n - c - 1; d++)
+		{
+			if ((jeloArray + d)->id < (jeloArray + d + 1)->id)
+			{
+				changeID = (jeloArray->id + d);
+				(jeloArray + d)->id = (jeloArray + d + 1)->id;
+				(jeloArray + d + 1)->id = changeID;
+				swap(&(jeloArray + d)->naziv, &(jeloArray + d + 1)->naziv);
+				changePrice = (jeloArray->cijena + d);
+				(jeloArray + d)->cijena = (jeloArray + d + 1)->cijena;
+				(jeloArray + d + 1)->cijena = changePrice;
+			}
+		}
+	}
+}*/
 
 void printArray(JELOVNIK* jeloArray, int m)
 {
@@ -208,7 +236,7 @@ void printArray(JELOVNIK* jeloArray, int m)
 	bubbleSort(jeloArray, m);
 	for (i = 0; i < m; i++)
 	{
-		printf("Narudzba broj %d\nID: %d\nNaziv: %sCijena: %d kn\n",
+		printf("Narudzba broj %d\nID: %d\nnaziv: %s\ncijena: %d\n",
 			i + 1, (jeloArray + i)->id, (jeloArray + i)->naziv, (jeloArray + i)->cijena);
 	}
 }
