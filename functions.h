@@ -14,5 +14,6 @@ void swap(int*, int*);
 void bubbleSort(JELOVNIK*, int);
 void printArray(JELOVNIK*, int);
 void ispisRacuna(int);
+void stringSwap(char** , char** );
 
 #endif //FUNCTIONS_H

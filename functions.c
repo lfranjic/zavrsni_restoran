@@ -116,8 +116,8 @@ int addOrder(int m)
 		printf("Unesite id:\n");
 		scanf("%d", &(jeloArray + i)->id);
 		printf("Unesite naziv:\n");
-		scanf("%s", &(jeloArray + i)->naziv);
 		getchar();
+		fgets((jeloArray + i)->naziv, 100, stdin);
 		printf("Unesite cijenu:\n");
 		scanf("%d", &(jeloArray + i)->cijena);
 		sumCijena += (jeloArray + i)->cijena;
@@ -189,6 +189,13 @@ void swap(int* xp, int* yp)
 	*yp = temp;
 }
 
+void stringSwap(char** a, char** b) {
+	char t[100];
+	strcpy(t, a);
+	strcpy(a, b);
+	strcpy(b, t);
+}
+
 void bubbleSort(JELOVNIK* jeloArray, int n)
 {
 	int i, j;
@@ -199,7 +206,7 @@ void bubbleSort(JELOVNIK* jeloArray, int n)
 			if ((jeloArray + j)->id > (jeloArray + j + 1)->id)
 			{
 				swap(&(jeloArray + j)->id, &(jeloArray + j + 1)->id);
-				swap(&(jeloArray + j)->naziv, &(jeloArray + j + 1)->naziv);
+				stringSwap(&(jeloArray + j)->naziv, &(jeloArray + j + 1)->naziv);
 				swap(&(jeloArray + j)->cijena, &(jeloArray + j + 1)->cijena);
 			}
 		}
